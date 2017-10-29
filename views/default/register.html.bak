@@ -1,0 +1,28 @@
+{{extend 'layout2.html'}}
+<body>
+    
+      
+        <div class="jumbotron">
+
+            <div class="container">
+                    <h4>Pull up a seat and join us for coffee...</h4>
+                    <p>Hai Café is a place for sharing knowledge. If you need help with a question, just ask the community in exchange for a bounty. Your fellow café goers can point you in the right direction by adding relevant links (called "plugs"). If you and others find these plugs useful, upvote them to reward the people who took time to help you. Every question has an expiration date. Once time is up, the person who created the best plug wins the bounty.</p>
+
+                </div>
+                <div class="container">
+                    <h4>How do I earn bucks?</h4>
+                    <p> You can earn bucks in one of 2 ways:  
+                        <ol type="1">
+                            <li>Post questions that others find useful.</li>
+                            <li>Add plugs that others find useful.</li>
+                        </ol>
+                    </p>
+                </div>
+                <div class="container">
+                    <h4>Let's get started!</h4>
+                    <p>{{=form}}.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>

@@ -1,0 +1,25 @@
+{{extend 'layout.html'}}
+{{block body}}
+<div class="container">
+
+    <div class="jumbotron">
+                          
+                <h2>Create a Bounty</h2><br>
+                <p>
+                    {{=form.custom.begin}}
+                    
+                    {{form.custom.widget.one_liner.update(_size="50")}}  
+                    {{form.custom.widget.one_liner.update(_class="input-lg form-control")}}
+                   
+                    {{form.custom.widget.one_liner.update(_placeholder="your problem or question in a nutshell")}}
+                                        
+                    <span style="font-size:20px">One-liner</span> 
+                    <div>{{=form.custom.widget.one_liner}}</div>
+
+                    {{form.element(_type='submit')['_class']='btn-primary'}}                
+                    {{=form.custom.submit}}
+                    {{=form.custom.end}}  
+                </p>
+                
+    </div>
+</div>

@@ -1,0 +1,107 @@
+{{extend 'layout.html'}}
+{{block body}}
+{{from urlparse import urlparse}}
+
+{{for r in result:}}    
+<div class="container">    
+    <div class="jumbotron">
+        
+    <h2>{{=r.one_liner}}</h2><br>
+   
+    <p>
+        {{if r.created_on:}}
+        by {{=db(db.auth_user.id==r.creator_id).select()[0].username}} 
+        {{ age=divmod((request.now - r.created_on).days,7)[1]  }} {{if age==0:}} today {{elif age==1:}} yesterday {{else:}} {{=age}} days ago {{pass}}  | {{num_plugs=db(db.plugs.bounty_id==r.id).count()}} {{if num_plugs==1:}}1 plug{{elif num_plugs==0 or num_plugs>1:}}{{=num_plugs}} plugs{{pass}} 
+        
+         {{if auth.user:}}
+            {{if auth.user.id == r.creator_id:}}
+        | <a href="https://smmc.pythonanywhere.com/cb/default/delete?bounty_id={{=r.id}}" class="text-danger">delete</a>
+            {{pass}}
+        {{pass}}
+        
+    </p>
+        {{pass}}
+        <!--
+        {{tags = db(db.tags.bounty_id==r.id).select()}}
+        {{if len(tags) > 0:}}
+        <span class="text-info">Tags:</span>
+        {{pass}}
+        {{for t in tags:}}   
+        <button type="button" class = "btn btn-default btn-md" role = "button">{{=t.tag}}</button>
+        {{pass}}   
+        -->
+        
+    </p>
+        
+    <div class="panel panel-default">
+        <div class="panel-heading">Add a Plug</div>
+            <div class="panel-body">
+                        {{=form.custom.begin}}                                
+
+                        {{form.custom.widget.comment.update(_class="input-lg form-control")}}
+                        {{form.custom.widget.link.update(_class="input-lg form-control")}}
+                        {{form.custom.widget.record_id.update(_value=r.id)}}
+                        {{form.custom.widget.record_id.update(_type="hidden")}}
+
+                        {{form.custom.widget.comment.update(_placeholder="describe your link")}} 
+                        {{form.custom.widget.link.update(_placeholder="your link here")}}
+                        
+                        {{=form.custom.widget.comment}}
+                        {{=form.custom.widget.link}}
+                        {{=form.custom.widget.record_id}}
+                        <div>
+                        {{form.element(_type='submit')['_class']='btn-primary'}}                
+                        {{=form.custom.submit}}
+                        </div>
+                        {{=form.custom.end}} 
+            </div>
+        </div>
+            
+        {{plugs = db(db.plugs.bounty_id == r.id).select()}}
+        {{if len(plugs)>0:}}
+            <div class="...">
+                <p><h3>Plugs</h3></p
+            </div>  
+        {{pass}}
+        <div>                    
+            <ul class="list-group">
+                {{for p in plugs:}}
+                    <li class="list-group-item">
+                    {{if auth.user:}}
+                    <button type="button" class="btn btn-success btn-md" id="button{{=p.id}}"  onclick="ajax('{{=URL('default','upvote',vars=dict(plug_id=p.id,bounty_id=r.id,user=auth.user.id))}}',['name'],'button{{=p.id}}')"> 
+                            <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span> {{=p.upvotes}} 
+                        </button>               
+
+                        {{ if db( (db.upvotes.user==auth.user.id) & (db.upvotes.plug_id==p.id) ).count() >0:}}
+                        <script>
+                            jQuery('#button{{=p.id}}').prop("disabled",true);
+
+                        </script>
+                        {{pass}} 
+                    {{else:}}
+                    <button type="button" class="btn btn-success btn-md" id="button{{=p.id}}">   
+                        <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span> {{=p.upvotes}} 
+                    </button>                            
+                    {{pass}}
+                    {{ o = urlparse(p.link) }}
+
+                        <a href="{{=p.link}}">{{=p.comment}}</a> ({{=o.netloc}}) <br>
+                        submitted by: {{=p.creator_id.username}}
+                        {{if auth.user:}}
+                            {{if auth.user.id == p.creator_id:}}
+                            | <a href="https://smmc.pythonanywhere.com/cb/default/delete?bounty_id={{=r.id}}&plug_id={{=p.id}}" class="text-danger">delete</a>
+                            {{pass}}
+                        {{pass}}
+                        
+                    </li>
+                    {{pass}}
+                </ul>                                    
+        </div>   
+   
+    </div>
+</div>
+    </div>
+{{pass}}
+
+        
+{{end}}
