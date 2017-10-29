@@ -2,7 +2,7 @@
 Lightweight web app for curating knowledge within online communities
 
 ## What?
-Cafe Highland is a lightweight website that lets community members ask questions and answer each others' questions by posting links. Users earn points when others upvote their links. It functions like a cross between link-sharing websites (like hacker news) and sites like reddit. There is not commenting by design.
+Cafe Highland is a lightweight website that lets community members ask questions and answer each others' questions by posting links. Users earn points when others upvote their links. It functions like a cross between link-sharing websites (like hacker news) and sites like reddit. There is no commenting by design.
 
 ## Who?
 Anyone can clone this website and re-brand it for your own organization according to the license.
